@@ -1,4 +1,9 @@
 pipeline{
+    environment{
+        registry='tech99/calculator'
+        registryCredential='dockerhub_id'
+        dockerImage=''
+    }
     agent any
     triggers{
         pollSCM('* * * * *')
