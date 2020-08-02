@@ -38,7 +38,7 @@ pipeline{
                 sh "docker login --username 'tech99' --password '!Rafi_420*'"
             }
         }
-}
+
         stage("Docker push"){
             steps{
                 sh "docker push tech99/calculator"
