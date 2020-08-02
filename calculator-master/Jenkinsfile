@@ -28,23 +28,5 @@ pipeline{
                 sh "./gradlew jacocoTestCoverageVerification"
             }
         }
-        stage("Package"){
-            steps{
-                sh './gradlew build'
-            }
-        }
-        stage("Docker login") {
-            steps {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
-                    usernameVariable: 'tech99', passwordVariable: '!Rafi_420*']]) {
-                sh "docker login --username $USERNAME --password $PASSWORD"
-            }
-        }
-}
-        stage("Docker push"){
-            steps{
-                sh "docker push tech99/calculator"
-            }
-        }
     }
 }
