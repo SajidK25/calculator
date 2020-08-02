@@ -33,15 +33,19 @@ pipeline{
                 sh './gradlew build'
             }
         }
-        stage("Docker login") {
-            steps {
-                sh "docker login --username 'tech99' --password '!Rafi_420*'"
-            }
-        }
+        // stage("Docker login") {
+        //     steps {
+                
+        //         sh "docker login --username 'tech99' --password '!Rafi_420*'"
+        //     }
+        // }
 
         stage("Docker push"){
             steps{
-                sh "docker push tech99/calculator"
+                script{
+                    docker.withRegistry('',registryCredential)
+                    dockerImage.push()
+                }
             }
         }
     }
