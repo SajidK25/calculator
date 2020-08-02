@@ -43,11 +43,8 @@ pipeline{
         }
 
         stage("Docker push"){
-            steps{
-                script{
-                    docker.withRegistry('',registryCredential)
-                    dockerImage.push()
-                }
+            steps {
+                sh "docker push tech99/calculator"
             }
         }
     }
