@@ -1,9 +1,4 @@
 pipeline{
-    environment{
-        registry='tech99/calculator'
-        registryCredential='dockerhub_id'
-        dockerImage=''
-    }
     agent any
     triggers{
         pollSCM('* * * * *')
@@ -38,12 +33,14 @@ pipeline{
                 sh './gradlew build'
             }
         }
-        // stage("Docker login") {
-        //     steps {
-                
-        //         sh "docker login --username 'tech99' --password '!Rafi_420*'"
-        //     }
-        // }
+        stage("Docker login") {
+            steps {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
+                   usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+               sh "docker login --username $USERNAME --password $PASSWORD"
+          }
+     }
+        }
 
         stage("Docker push"){
             steps{
