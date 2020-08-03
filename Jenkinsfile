@@ -39,13 +39,31 @@ pipeline{
                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                sh "docker login --username $USERNAME --password $PASSWORD"
           }
-     }
+        }
         }
 
         stage("Docker push"){
             steps {
                 sh "docker push tech99/calculator"
             }
+        }
+
+        stage("Deploy to staging"){
+            steps{
+                sh "docker run -d --rm -p 8765:8080 --name calculator tech99/calculator"
+            }
+        }
+
+        stage("Acceptance Test"){
+            steps{
+                sleep 60
+                sh "chmod +x acceptance_test.sh && ./acceptance_test/sh"
+            }
+        }
+    }
+    post{
+        always{
+            sh "docker stop calulator"
         }
     }
 }
